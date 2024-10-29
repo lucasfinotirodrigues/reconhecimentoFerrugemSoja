@@ -28,7 +28,7 @@ img {
 .masthead {
     position: relative;
     text-align: center;
-    background-image: url("../img/train/background.jpg");
+    background-image: url("../img/background.jpg");
     background-repeat: no-repeat;
     background-position: top center;
     background-size: cover;
