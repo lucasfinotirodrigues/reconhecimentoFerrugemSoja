@@ -1,0 +1,8 @@
+# data.yaml
+path: /home/ciag/Desktop/reconhecimentoFerrugemSoja/  # caminho completo para o diretório do dataset
+train: val/images # diretório de imagens de treinamento dentro do dataset
+val: train/images      # diretório de imagens de validação dentro do dataset
+
+names:
+  0: doenca
+  1: saudavel
