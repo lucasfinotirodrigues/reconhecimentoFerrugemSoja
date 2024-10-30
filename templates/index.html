@@ -16,7 +16,7 @@
         </div>
       </nav>
 
-    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data">
         <div class="content-model">
             <div class="header-model">
                 <h4 class="mb-3">Detecção de Doenças em Folhas de Soja</h4>
@@ -26,7 +26,7 @@
             </p>
         </div>
         <div class="container-fluid d-flex justify-content-end py-0">
-            <button class="start" type="submit">
+        <button class="start" type="submit">
                 <img src="../static/img/search.svg" alt="ícone">
                 Analisar imagem
             </button>
@@ -37,11 +37,12 @@
             <p class="label-text">Clique aqui para <em> procurar em seu dispositivo</em></p>
             <p class="label-text mt-0">.JPG .JPEG .PNG</p>
         </div>
-    </form>    
+    </form>
 
     {% if filename %}
-    <h2>Resultado da Detecção:</h2>
-    <img src="{{ url_for('static', filename=filename) }}" alt="Imagem processada">
+        <h2>Resultado da Detecção:</h2>
+        <img src="{{ url_for('static', filename=filename) }}" alt="Imagem processada">
+        <p>Doença Detectada: {{ disease }}</p>
     {% endif %}
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
