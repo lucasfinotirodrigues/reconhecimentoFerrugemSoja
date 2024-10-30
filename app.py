@@ -2,33 +2,24 @@ from flask import Flask, render_template, request, redirect, url_for
 from ultralytics import YOLO
 import os
 import cv2
+from teste import detectImage
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['DETECTIONS_OUTPUT_FOLDER'] = 'static/detections_output'
+os.makedirs(app.config['DETECTIONS_OUTPUT_FOLDER'], exist_ok=True)
 
-# Carregar o modelo treinado com suas classes
-model = YOLO('yolov8n.pt')  
+# Carrega o modelo YOLO treinado
+model = YOLO('yolov8n.pt')  # Atualize o caminho se necessário
 
-# Lista de labels para as 4 doenças
-disease_labels = {
-    'alternariaCucumerina': 'labels/alternariaCucumerina.txt',
-    'antracnose': 'labels/antracnose.txt',
-    'murchaFusarium': 'labels/murchaFusarium.txt',
-    'oidio': 'labels/oidio2.txt'
-}
-
-# Rota para a página inicial
 @app.route('/')
 def welcome():
     return render_template('home.html')
 
-# Rota para a página de upload
 @app.route('/detecao')
 def index():
     return render_template('index.html')
 
-
-# Rota para o upload da imagem
 @app.route('/upload', methods=['POST'])
 def upload_image():
     if 'image' not in request.files:
@@ -39,58 +30,55 @@ def upload_image():
         return redirect(request.url)
 
     if file:
+        # Salvar imagem carregada
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
+        filename = detectImage(filepath)
 
-        # Fazer a predição na imagem usando YOLOv8
-        results = model(filepath)
-        
-        # Carregar a imagem com OpenCV
-        img = cv2.imread(filepath)
+        # # Fazer a predição na imagem
+        # results = model(filepath)
 
-        # Variáveis para armazenar a doença mais provável e maior confiança
-        best_disease = None
-        highest_confidence = 0
-        bounding_boxes_drawn = 0  # Contador de bounding boxes
+        # # Carregar a imagem original com OpenCV
+        # img = cv2.imread(filepath)
 
-        # Percorrer as 4 doenças e comparar com a imagem
-        for disease, label_file_path in disease_labels.items():
-            if os.path.exists(label_file_path):
-                with open(label_file_path, 'r') as f:
-                    annotations = f.readlines()
+        # # Verifique se o resultado contém detecções
+        # highest_confidence = 0
+        # bounding_boxes_drawn = 0
 
-                # Iterar sobre as anotações para desenhar os bounding boxes e calcular similaridade
-                for annotation in annotations:
-                    class_id, x_center, y_center, width, height = map(float, annotation.split())
-                    x1 = int((x_center - width / 2) * img.shape[1])
-                    y1 = int((y_center - height / 2) * img.shape[0])
-                    x2 = int((x_center + width / 2) * img.shape[1])
-                    y2 = int((y_center + height / 2) * img.shape[0])
-                    
-                    # Exemplo de confiança fictícia, ajustar conforme necessário
-                    confidence = 0.95
-                    if confidence > highest_confidence:
-                        highest_confidence = confidence
-                        best_disease = disease
+        # if results and len(results) > 0:
+        #     for result in results:
+        #         if result.boxes is not None and len(result.boxes) > 0:
+        #             for detection in result.boxes:
+        #                 x1, y1, x2, y2 = map(int, detection.xyxy[0])  # Coordenadas do bounding box
+        #                 confidence = detection.conf[0].item()  # Confiança da detecção
 
-                    # Desenhar o bounding box na imagem
-                    cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
-                    cv2.putText(img, f'{disease} {confidence:.2f}', (x1, y1 - 10), 
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-                    
-                    bounding_boxes_drawn += 1  # Incrementar o contador
-                    if bounding_boxes_drawn >= 4:  # Limitar a 3 bounding boxes
-                        break
-            
-            if bounding_boxes_drawn >= 4:  # Se o limite for atingido, parar o loop externo
-                break
-        
-        # Salvar a imagem com os bounding boxes
-        output_path = os.path.join(app.config['UPLOAD_FOLDER'], f"output_{file.filename}")
-        cv2.imwrite(output_path, img)
+        #                 if confidence > 0.2:  # Threshold de confiança
+        #                     bounding_boxes_drawn += 1
+        #                     if confidence > highest_confidence:
+        #                         highest_confidence = confidence
 
-        # Retornar o resultado para o usuário
-        return render_template('index.html', filename=f"uploads/output_{file.filename}", disease=best_disease, confidence=highest_confidence)
+        #                     # Desenhar bounding boxes na imagem
+        #                     cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
+        #                     cv2.putText(img, f'Ferrugem {confidence:.2f}', (x1, y1 - 10), 
+        #                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+
+        #     if bounding_boxes_drawn == 0:
+        #         print("Nenhuma área detectada com confiança suficiente.")
+        #     else:
+        #         print(f"{bounding_boxes_drawn} bounding boxes desenhadas.")
+
+            # Salvar a imagem com bounding boxes
+        #     output_path = os.path.join(app.config['DETECTIONS_OUTPUT_FOLDER'], f"output_{file.filename}")
+        #     cv2.imwrite(output_path, img)
+
+        #     # Exibir resultado
+        print(str(filename))
+        return render_template('index.html', filename=str(filename), disease="Ferrugem")
+        # else:
+            # print("Nenhum resultado retornado do modelo.")
+            # return redirect(url_for('index'))
+
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug=True)
