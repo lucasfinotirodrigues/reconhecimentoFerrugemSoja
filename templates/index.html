@@ -14,9 +14,9 @@
         <div class="container-fluid">
           <a class="navbar-brand text-light" href="#">Soja Protegida</a>
         </div>
-      </nav>
+    </nav>
 
-      <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data">
         <div class="content-model">
             <div class="header-model">
                 <h4 class="mb-3">Detecção de Doenças em Folhas de Soja</h4>
@@ -40,9 +40,17 @@
     </form>
 
     {% if filename %}
-        <h2>Resultado da Detecção:</h2>
-        <img src="{{ url_for('static', filename=filename) }}" alt="Imagem processada">
-        <p>Doença Detectada: {{ disease }}</p>
+    <div style="display: flex;justify-content: center;">
+        <div class="card">
+            <h4 class="mb-3">Resultado da detecção</h4>
+            <img 
+            style="width: 600px;border-radius: 5px;" 
+            src="{{ url_for('static', filename=filename) }}" alt="Imagem processada">
+            <div style="width: 100%;display: flex; justify-content: start;margin-top: 8px;">
+                <p>Doença Detectada: {{ disease }}</p>
+            </div>
+        </div>
+    </div>
     {% endif %}
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

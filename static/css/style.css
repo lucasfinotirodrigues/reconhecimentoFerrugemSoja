@@ -171,6 +171,20 @@ nav {
     background-color: #f0f0f0;
   }
 
+  .card {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, .2), -2px 0 4px 0 rgba(0, 0, 0, .25);   
+    padding: 16px 16px 20px;
+    max-width: 800px;
+    width: 100%;
+    margin: 58px;
+  }
+
 @media screen and (max-width: 768px) {
 
     .container {
@@ -204,4 +218,8 @@ nav {
     .container-fluid {
         padding: 0 24px!important;
     }    
+
+    .file-drop-area, .card {
+        margin: 24px 24px 0 24px 
+    }
 }
