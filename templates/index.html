@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detecção de Doenças em Sojas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="./../static/img/favicon.ico">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-          <a class="navbar-brand text-light" href="#">Soja Protegida</a>
+            <img src="../static/img/folha.svg" alt="Ícone de folha" style="width: 32px;">
+            <a class="navbar-brand text-light" style="font-size: 20px;text-decoration: none;color: #fff;" href="#">Soja
+                Protegida</a>
         </div>
     </nav>
 
     <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data">
         <div class="content-model">
             <div class="header-model">
-                <h4 class="mb-3">Detecção de Doenças em Folhas de Soja</h4>
+                <h4 class="mb-3">Detecção de ferrugem asiática na folha de soja</h4>
             </div>
-            <p>
-                Este projeto utiliza inteligência artificial para identificar níveis da doença Ferrugem nas folhas da Soja. Com o auxílio de técnicas de análise de imagem, é possível detectar sinais de doenças nas folhas e a gravidade da mesma, permitindo uma resposta rápida e precisa para o controle das pragas e proteção das plantas. Carregue uma imagem da folha e clique em "Analisar" para verificar a presença de sintomas e agravamento das folhas danificadas que indicam a doença.
+            <p class="mb-2" style="text-align: left; font-size: 18px;">
+                Este projeto utiliza algoritimos de machine Learning para identificar a presença da doença na folha da
+                Soja. Com o auxílio de técnicas de análise de imagem, é possível detectar sinais de ferrugem e sua acurácia, permitindo uma resposta rápida e precisa para o controle da doença e proteção das plantas. <br> Anexe uma imagem da folha e clique em "Analisar imagem" para verificar a presença de sintomas.
             </p>
         </div>
-        <div class="container-fluid d-flex justify-content-end py-0">
-        <button class="start" type="submit">
+        <div class="container-fluids">
+            <button class="start" type="submit">
                 <img src="../static/img/search.svg" alt="ícone">
                 Analisar imagem
             </button>
-        </div>    
+        </div>
         <div class="file-drop-area">
             <input type="file" class="file-input" name="image" accept="image/*" required>
             <img src="../static/img/upload.svg" alt="Adicionar arquivo">
@@ -41,18 +49,76 @@
 
     {% if filename %}
     <div style="display: flex;justify-content: center;">
-        <div class="card">
-            <h4 class="mb-3">Resultado da detecção</h4>
-            <img 
-            style="width: 600px;border-radius: 5px;" 
-            src="{{ url_for('static', filename=filename) }}" alt="Imagem processada">
-            <div style="width: 100%;display: flex; justify-content: start;margin-top: 8px;">
-                <p>Doença Detectada: {{ disease }}</p>
+        <div class="cards">
+            <div style="display: flex;justify-content: center;">
+                <img style="width: 500px;border-radius: 8px;" src="{{ url_for('static', filename=filename) }}"
+                    alt="Imagem processada">
+            </div>
+            <div style="display: flex;flex-direction: column;align-items: start;">
+                <strong style="font-size: 28px;">{{ disease }}</strong>
+                <br>
+                <strong style="margin-bottom: 12px"> Ferrugem Asiática da Soja </strong><em>(Phakopsora pachyrhizi)</em>
+                <br><br>
+
+                <strong style="font-size: 24px;">Controle</strong><br>
+
+                A persistência do fungo na palhada pode exigir manejo mais rigoroso na safra seguinte, aumentando o
+                custo de prevenção e controle.
+                <br><br><br>
+
+                <span style="color: rgb(34 136 221); margin-bottom: 12px;cursor: pointer;">Mais informações</span>
+                
+
+                <strong style="font-size: 24px;">Sintomas</strong><br>
+
+                <strong style="margin-bottom: 12px">Pústulas Iniciais</strong>
+                As primeiras manifestações são pequenas pústulas amarelas a marrom-avermelhadas na parte inferior das
+                folhas.
+
+                <strong style="    margin-bottom: 8px;
+    margin-top: 12px;">Necrose Foliar</strong>
+                Com a progressão da infecção, surgem áreas necróticas nas folhas, que secam e caem precocemente.
+
+                <strong style="    margin-bottom: 8px;
+    margin-top: 12px;">Redução do Porte</strong>
+                A doença reduz o porte da planta, encurta os entrenós e diminui a produtividade.
+                <br><br>
+                <strong style="font-size: 24px;">Danos Econômicos</strong><br>
+
+                <strong style="margin-bottom: 12px">Redução de produtividade</strong>
+
+                A doença pode causar perdas de 10% a 90% na produtividade, dependendo da gravidade da infecção e do
+                estágio da cultura quando afetada.
+
+                <strong style="margin-bottom: 8px; margin-top: 12px;">Aumento nos custos de produção</strong>
+
+                Para controlar a doença, é necessário o uso intensivo de fungicidas, o que eleva os custos com
+                defensivos agrícolas, mão de obra e operações de pulverização.
+
+                <strong style="margin-bottom: 8px; margin-top: 12px;">Impacto na qualidade dos grãos</strong>
+
+                A ferrugem reduz a qualidade e o peso dos grãos, afetando o valor final da colheita e reduzindo a
+                competitividade do produto no mercado.
+
+                <strong style="margin-bottom: 8px; margin-top: 12px;">Impacto na safra seguinte</strong>
+
+                A persistência do fungo na palhada pode exigir manejo mais rigoroso na safra seguinte, aumentando o
+                custo de prevenção e controle.
+
+                <br><br>
+                <strong style="font-size: 24px;">Causador</strong><br>
+                <strong><em>Phakopsora pachyrhizi</em></strong> É um fungo de origem asiática, altamente adaptável, que ataca
+                principalmente as folhas da soja
+                <br><br>
+
             </div>
         </div>
     </div>
+
+
     {% endif %}
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>

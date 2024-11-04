@@ -50,7 +50,7 @@ img {
 }
 
 .masthead .container {
-    top: 150px;
+    top: 200px;
     gap: 32px;
     position: relative;
     z-index: 2;
@@ -66,13 +66,21 @@ img {
 }
 
 .container-fluid {
-    padding: 58px!important;
+    display: flex;
+    padding: 28px!important;
+    justify-content: flex-start!important;
+    gap: 16px;
+}
+
+.container-fluids {
+    display: flex;
+    justify-content: flex-end;
+    padding: 56px !important;
 }
 
 h4 {
-    font-size: 48px;
-    font-weight: 700;
-    color: #c4d4d4  ;
+    font-size: 28px;
+    font-weight: 600;
 }
 
 h5 {
@@ -109,6 +117,7 @@ button:hover {
 }
 
 .header-model {
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -171,18 +180,23 @@ nav {
     background-color: #f0f0f0;
   }
 
-  .card {
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center;
+  .cards {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 28px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, .2), -2px 0 4px 0 rgba(0, 0, 0, .25);   
-    padding: 16px 16px 20px;
-    max-width: 800px;
+    padding: 40px;
     width: 100%;
     margin: 58px;
+  }
+
+  @media screen and (max-width: 992px) {
+    .cards {
+        flex-wrap: wrap;
+    }
   }
 
 @media screen and (max-width: 768px) {
@@ -216,10 +230,15 @@ nav {
     }
 
     .container-fluid {
-        padding: 0 24px!important;
+        padding: 24px!important;
     }    
 
-    .file-drop-area, .card {
-        margin: 24px 24px 0 24px 
+    .file-drop-area, .cards, .container-fluids {
+        padding: 32px 0 !important;
+        margin: 24px 24px 0 24px;
+    }
+
+    h4 {
+        font-size: 22px;
     }
 }
